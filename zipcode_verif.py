@@ -1,4 +1,5 @@
 import csv
+import time
 
 
 def zipcode_binary_search(array, zipcode):
@@ -12,12 +13,12 @@ def zipcode_binary_search(array, zipcode):
 
     while low <= high:
         mid = (high + low) // 2
+        if array[mid] == zipcode:   # means x is present at mid
+            return True
         if array[mid] < zipcode:  # If x is greater, ignore left half
             low = mid + 1
         elif array[mid] > zipcode:  # If x is smaller, ignore right half
             high = mid - 1
-        else:  # means x is present at mid
-            return True
 
     return False  # If we reach here, then the element was not present
 
@@ -35,14 +36,17 @@ def generate_zip_list(csv_file, output):
     valid_zips.pop(0)
 
 
-# Open, read, store data, close (txt file)
-txt_file = open('zipcode-verif-service.txt', 'r')
-user_zipcode = txt_file.read()      # Store zipcode in variable
-txt_file.close()
-valid_zipcodes = []
-
-generate_zip_list('uszips.csv', valid_zipcodes)
-verif_result = zipcode_binary_search(valid_zipcodes, user_zipcode) # Returns Bool
-txt_file = open('zipcode-verif-service.txt', 'w')
-txt_file.write(str(verif_result))   # Converts Bool to String
-txt_file.close()
+while True:
+    time.sleep(1)
+    # Open, read, store data, close (txt file)
+    txt_file = open('zipcode-verif-service.txt', 'r')
+    user_zipcode = txt_file.read()
+    if user_zipcode != "":
+        txt_file.close()
+        valid_zipcodes = []
+        generate_zip_list('uszips.csv', valid_zipcodes) #string data type
+        verif_result = zipcode_binary_search(valid_zipcodes, str(user_zipcode)) # Returns Bool
+        txt_file = open('zipcode-verif-service.txt', 'w')
+        txt_file.write(str(verif_result))   # Converts Bool to String
+        txt_file.close()
+        time.sleep(5)
