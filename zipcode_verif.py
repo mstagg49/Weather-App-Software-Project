@@ -1,5 +1,4 @@
 import csv
-import time
 
 
 def zipcode_binary_search(array, zipcode):
@@ -35,18 +34,3 @@ def generate_zip_list(csv_file, output):
             valid_zips.append(row[0])
     valid_zips.pop(0)
 
-
-while True:
-    time.sleep(1)
-    # Open, read, store data, close (txt file)
-    txt_file = open('zipcode-verif-service.txt', 'r')
-    user_zipcode = txt_file.read()
-    if user_zipcode != "":
-        txt_file.close()
-        valid_zipcodes = []
-        generate_zip_list('uszips.csv', valid_zipcodes) #string data type
-        verif_result = zipcode_binary_search(valid_zipcodes, str(user_zipcode)) # Returns Bool
-        txt_file = open('zipcode-verif-service.txt', 'w')
-        txt_file.write(str(verif_result))   # Converts Bool to String
-        txt_file.close()
-        time.sleep(5)
